@@ -16,10 +16,17 @@ config :future_echoes,
     white_corridor_159: [
       vocabulary_unit: future_echoes.white_corridor_159_vocab_unit
     ]
-  ]
+  ],
+  vindaloo: future_echoes.vindaloo
 
 %{libcluster: libcluster} = vapor_config
 
+# Running with a :topologies key in the libcluster config causes libcluster to
+# attempt to configure and run itself. If the config for that key is incomplete
+# or incorrect, the app fails to start.
+#
+# This can be worked around by only configuring if the library is supposed to
+# be enabled.
 if libcluster.enabled? do
   if libcluster.dns_query == nil, do: raise("Environment variable CLUSTER_DNS_QUERY is unset")
   if libcluster.node_basename == nil, do: raise("Environment variable NODE_SNAME is unset")
@@ -63,7 +70,8 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: String.to_integer(System.get_env("PORT") || "4000")
     ],
-    secret_key_base: secret_key_base
+    secret_key_base: secret_key_base,
+    server: true
 
   # ## Using releases
   #

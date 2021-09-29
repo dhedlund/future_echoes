@@ -38,9 +38,10 @@ defmodule FutureEchoes.ConfigProvider do
   config :future_echoes,
          env([
            {:arnolds_haircut, "ARNOLDS_HAIRCUT", required: false},
-           {:holly, "HOLLY_CONFIG", required: true, map: &(&1 |> decode() |> cast_json(:map, keys: :atoms))},
+           {:holly, "HOLLY_CONFIG", map: &(&1 |> decode() |> cast_json(:map, keys: :atoms))},
            {:listers_goldfish, "GOLDFISH", required: false, default: [], map: &cast_comma_separated_list/1},
-           {:white_corridor_159_vocab_unit, "WHITE_CORRIDOR_159_VOCAB", required: false, map: &cast_atom/1}
+           {:white_corridor_159_vocab_unit, "WHITE_CORRIDOR_159_VOCAB", required: false, map: &cast_atom/1},
+           {:vindaloo, "VINDALOO", required: false}
          ])
 
   config :libcluster,
